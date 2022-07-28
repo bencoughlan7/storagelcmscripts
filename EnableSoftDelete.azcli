@@ -1,0 +1,28 @@
+# Script to enable soft delete on both blobs and containers in all storage accounts in all subscription in subs var for number of days in retendiondays var
+
+# Set variable with subscriptions to apply tag to storage accounts within
+	subs=(ae6dcf2f-4706-4430-9053-1f68cb1145aa)
+
+# Set variable for number of days to retain soft deleted blobs
+	retentiondays="7"
+
+# For each loop to loop through all subscriptions in subs variable
+	for s in $subs
+		do
+		az account set --subscription $s
+	
+		# List all storageaccounts in subscription and store in accounts variable
+		accounts=($(az storage account list --query '[].name' --output 'tsv'))
+		
+		# For each account in accounts variable set the desired configuration
+		for n in $accounts
+            do 
+            echo Enabling soft delete with $retentiondays retention on Storage Account $n in Subscription $s
+            az storage account blob-service-properties update \
+                --enable-container-delete-retention true \
+                --enable-delete-retention true \
+                --delete-retention-days $retentiondays \
+                --container-delete-retention-days $retentiondays \
+                --account-name $n
+            done
+    done
