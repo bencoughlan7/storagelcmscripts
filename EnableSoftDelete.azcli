@@ -1,7 +1,7 @@
 # Script to enable soft delete on both blobs and containers in all storage accounts in all subscription in subs var for number of days in retendiondays var
 
 # Set variable with subscriptions to apply tag to storage accounts within
-	subs=(ae6dcf2f-4706-4430-9053-1f68cb1145aa)
+	subs=()
 
 # Set variable for number of days to retain soft deleted blobs
 	retentiondays="7"
