@@ -1,0 +1,24 @@
+#Script to populate a tag with value specified in the tagname var with the value specified in the value var on all storage accounts in subscriptions specified in subs var
+
+#Set variable with subscriptions to apply tag to storage accounts within
+	subs=(ae6dcf2f-4706-4430-9053-1f68cb1145aa)
+	
+#Set tagname and value variables
+    tagname="retention"
+	value="3years"
+		
+# For each loop to loop through all subscriptions in subs variable
+	for s in $subs
+		do
+		az account set --subscription $s
+	
+		# List all storageaccounts in subscription and store in accounts variable
+		accounts=($(az storage account list --query '[].id' --output 'tsv'))
+		
+        # For each account in accounts variable set the desired configuration
+		for n in $accounts
+            do 
+            echo Updating tag $tagname with value $value on Storage Account $n in Subscription $s
+		    az tag update --resource-id $n --operation merge --tags $tagname=$value
+            done
+        done
