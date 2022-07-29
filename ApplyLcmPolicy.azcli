@@ -1,7 +1,7 @@
 #Script to apply an LCM policy based on the value of the retention tag of a storage account
 
 #Set variable with subscriptions to apply tag to storage accounts within
-	subs=(ae6dcf2f-4706-4430-9053-1f68cb1145aa)
+	subs=(guids)
 		
 # For each loop to loop through all subscriptions in subs variable
 	for s in $subs

@@ -1,7 +1,7 @@
 #Script to populate a tag with value specified in the tagname var with the value specified in the value var on all storage accounts in subscriptions specified in subs var
 
 #Set variable with subscriptions to apply tag to storage accounts within
-	subs=()
+	subs=(guids)
 	
 #Set tagname and value variables
     tagname="retention"
