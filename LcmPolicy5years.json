@@ -1,0 +1,33 @@
+{
+      "rules": [
+        {
+          "definition": {
+            "actions": {
+              "baseBlob": {
+                "delete": {
+                  "daysAfterCreationGreaterThan": null,
+                  "daysAfterLastAccessTimeGreaterThan": null,
+                  "daysAfterLastTierChangeGreaterThan": null,
+                  "daysAfterModificationGreaterThan": 1825.0
+                },
+                "enableAutoTierToHotFromCool": null,
+                "tierToArchive": null,
+                "tierToCool": null
+              },
+              "snapshot": null,
+              "version": null
+            },
+            "filters": {
+              "blobIndexMatch": null,
+              "blobTypes": [
+                "blockBlob"
+              ],
+              "prefixMatch": null
+            }
+          },
+          "enabled": true,
+          "name": "Delete blobs older than 5 years",
+          "type": "Lifecycle"
+        }
+      ]
+    }
