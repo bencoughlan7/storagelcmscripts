@@ -1,0 +1,28 @@
+#Script to apply an LCM policy based on the value of the retention tag of a storage account
+
+#Set variable with subscriptions to apply tag to storage accounts within
+	subs=(ae6dcf2f-4706-4430-9053-1f68cb1145aa)
+		
+# For each loop to loop through all subscriptions in subs variable
+	for s in $subs
+		do
+		az account set --subscription $s
+
+		# The reason for returning both values and cutting the required field in the below commands is to ensure the sort order is preserved
+		# List all storageaccounts in subscription and store in accounts variable
+		accounts=($(az storage account list --query '[].[name,resourceGroup,tags.retention]' --output 'tsv' | cut -f1))
+		# List all storageaccounts in subscription and store their resource group rg variable
+		rg=($(az storage account list --query '[].[name,resourceGroup,tags.retention]' --output 'tsv' | cut -f2))
+		# List all storageaccounts in subscription and store the value of the retention tag in retention variable
+		retention=($(az storage account list --query '[].[name,resourceGroup,tags.retention]' --output 'tsv' | cut -f3))
+		
+        # For each account in accounts variable set the desired configuration
+		for (( i = 1 ; i <= $#accounts; i++ )) 
+			do
+    	    	echo Applying $retention[i] LCM policy to Storage Account $accounts[i] in Resource Group $rg[i] in Subscription $s
+    		    az storage account management-policy create \ 
+				--account-name $accounts[i] \ 
+				--policy @LcmPolicy$retention[i].json \ 
+				--resource-group $rg[i]
+			done
+		done
